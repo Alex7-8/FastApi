@@ -1,31 +1,71 @@
-from typing import Union
+# main.py
 from fastapi import FastAPI, Request, Depends, HTTPException, status
+from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.exc import SQLAlchemyError
+from datetime import datetime, timedelta
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
-from datetime import datetime, timedelta
-
+from typing import Union
 from app.auth import login
 from utils.utils import log_login_attempt, validate_username
+from app.db import get_db 
 
-# Configuración del token
-SECRET_KEY = "clave_secreta_segura"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+# Configuración de la base de datos (SQLite)
+DATABASE_URL = "sqlite:///./test.db"
 
+# Crear motor de conexión
+engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+
+# Base para los modelos de la base de datos
+Base = declarative_base()
+
+# Crea una sesión para interactuar con la base de datos
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+# Configuración de FastAPI
 app = FastAPI()
 
 # OAuth2 esquema para extraer el token del header Authorization
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
+# Clave secreta para JWT y configuraciones de token
+SECRET_KEY = "clave_secreta_segura"
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
+
+# Modelo para la tabla de usuarios (Ejemplo)
+class Usuario(Base):
+    __tablename__ = "usuarios"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True)
+    password = Column(String)
+    created_at = Column(String, default=datetime.utcnow)
+
+# Crear todas las tablas en la base de datos
+Base.metadata.create_all(bind=engine)
+
+# Función para obtener la sesión de la base de datos
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+# Crear token de acceso
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
     expire = datetime.utcnow() + (expires_delta or timedelta(minutes=15))
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
+# Verificar token de acceso
 def verify_token(token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
+        status_code=401,
         detail="Credenciales no válidas",
         headers={"WWW-Authenticate": "Bearer"},
     )
@@ -34,20 +74,20 @@ def verify_token(token: str = Depends(oauth2_scheme)):
         username: str = payload.get("sub")
         if username is None:
             raise credentials_exception
-        return username  # Puedes devolver más info si lo deseas
+        return username
     except JWTError:
         raise credentials_exception
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    return {"message": "Bienvenido a la API"}
 
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: Union[str, None] = None, user: str = Depends(verify_token)):
     return {"item_id": item_id, "q": q, "user": user}
 
 @app.post("/login")
-async def login_route(request: Request):
+async def login_route(request: Request, db: Session = Depends(get_db)):
     data = await request.json()
     username = data.get("username")
     password = data.get("password")
@@ -59,9 +99,19 @@ async def login_route(request: Request):
 
     try:
         user = login(username, password)
+        
+        # Verificar si el usuario existe en la base de datos
+        db_user = db.query(Usuario).filter(Usuario.username == username).first()
+        if not db_user:
+            raise HTTPException(status_code=404, detail="Usuario no encontrado")
+        
+        # Generar el token de acceso
         access_token = create_access_token(data={"sub": username}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
         log_login_attempt(ip, username, "success")
+        
         return {"access_token": access_token, "token_type": "bearer"}
+    
     except Exception as e:
         log_login_attempt(ip, username, "failed")
         raise HTTPException(status_code=401, detail="Credenciales incorrectas")
+

@@ -1,3 +1,4 @@
+#app/entrenamiento_bcrypt.py
 import bcrypt
 password = b"clave_segura"
 hashed = bcrypt.hashpw(password, bcrypt.gensalt())
