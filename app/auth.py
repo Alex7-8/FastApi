@@ -1,6 +1,6 @@
 # app/auth.py
 
-from fastapi import HTTPException
+from fastapi import Header, HTTPException
 from datetime import datetime, timedelta
 import bcrypt
 
@@ -37,3 +37,15 @@ def login(username: str, password: str):
         raise HTTPException(status_code=401, detail="Credenciales inválidas.")
 
     return {"msg": "Login exitoso"}
+
+def verify_token(authorization: str = Header(...)) -> str:
+    if not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Token inválido")
+
+    token = authorization.replace("Bearer ", "")
+    
+    # Simulación básica de validación
+    if token != "123456":  # Aquí iría la validación real
+        raise HTTPException(status_code=401, detail="Token inválido")
+
+    return "usuario_validado"

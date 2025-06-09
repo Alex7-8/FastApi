@@ -11,18 +11,12 @@ from typing import Union
 from app.auth import login
 from utils.utils import log_login_attempt, validate_username
 from app.db import get_db 
+from app.incidentes import router as incidentes_router
+from app.create_user import router as create_user_router
+from app.dependencies import Usuario, get_db
 
-# Configuración de la base de datos (SQLite)
-DATABASE_URL = "sqlite:///./test.db"
 
-# Crear motor de conexión
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 
-# Base para los modelos de la base de datos
-Base = declarative_base()
-
-# Crea una sesión para interactuar con la base de datos
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Configuración de FastAPI
 app = FastAPI()
@@ -30,30 +24,16 @@ app = FastAPI()
 # OAuth2 esquema para extraer el token del header Authorization
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
+# Importar el router de incidentes
+app.include_router(incidentes_router, prefix="/incidentes", tags=["incidentes"])
+
+# Importar el router para crear usuarios
+app.include_router(create_user_router, prefix="/usuarios", tags=["usuarios"])
+
 # Clave secreta para JWT y configuraciones de token
 SECRET_KEY = "clave_secreta_segura"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
-
-# Modelo para la tabla de usuarios (Ejemplo)
-class Usuario(Base):
-    __tablename__ = "usuarios"
-    
-    id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True, index=True)
-    password = Column(String)
-    created_at = Column(String, default=datetime.utcnow)
-
-# Crear todas las tablas en la base de datos
-Base.metadata.create_all(bind=engine)
-
-# Función para obtener la sesión de la base de datos
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 # Crear token de acceso
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
