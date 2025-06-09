@@ -50,3 +50,4 @@ El formato de este CHANGELOG se basa en [Keep a Changelog](https://keepachangelo
 - Creación de la estructura base del repositorio (main, dev, feature/\*).
 - Implementación del control de versiones con Git.
 - Configuración inicial de `.env` para variables de entorno.
+## [] - 2025-06-08

@@ -73,6 +73,7 @@ async def login_route(request: Request, db: Session = Depends(get_db)):
     password = data.get("password")
     ip = request.client.host
 
+
     if not validate_username(username):
         log_login_attempt(ip, username, "invalid format")
         return {"error": "Formato de usuario inválido"}
