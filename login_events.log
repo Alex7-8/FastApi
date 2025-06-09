@@ -5,3 +5,35 @@
 2025-05-26 18:32:45,475 - IP: 127.0.0.1 - Usuario: Alex - Estado: failed
 2025-05-26 18:32:46,195 - IP: 127.0.0.1 - Usuario: Alex - Estado: failed
 2025-06-08 16:56:48,347 - IP: 127.0.0.1 - Usuario: Alex - Estado: failed
+2025-06-08 21:10:20,202 - IP: 127.0.0.1 - Usuario: vidal - Estado: failed
+2025-06-08 21:12:00,334 - IP: 127.0.0.1 - Usuario: vidal - Estado: failed
+2025-06-08 21:12:04,985 - IP: 127.0.0.1 - Usuario: vidal - Estado: failed
+2025-06-08 21:12:11,753 - IP: 127.0.0.1 - Usuario: vidal - Estado: failed
+2025-06-08 21:12:30,624 - IP: 127.0.0.1 - Usuario: 'vidal' or 1=1 - Estado: invalid format
+2025-06-08 21:12:39,217 - IP: 127.0.0.1 - Usuario: vidal or 1=1 - Estado: invalid format
+2025-06-08 21:12:40,894 - IP: 127.0.0.1 - Usuario: vidal or 1=1 - Estado: invalid format
+2025-06-08 21:12:46,989 - IP: 127.0.0.1 - Usuario: or 1=1 - Estado: invalid format
+2025-06-08 21:13:07,347 - IP: 127.0.0.1 - Usuario: '' or 1=1 - Estado: invalid format
+2025-06-08 21:13:11,100 - IP: 127.0.0.1 - Usuario: '' or 1=1 - Estado: invalid format
+2025-06-08 21:16:14,727 - IP: 127.0.0.1 - Usuario: '' or 1=1 - Estado: invalid format
+2025-06-08 21:16:22,281 - IP: 127.0.0.1 - Usuario: asdf - Estado: failed
+2025-06-08 21:17:41,203 - IP: 127.0.0.1 - Usuario: asdf - Estado: failed
+2025-06-08 21:18:14,673 - IP: 127.0.0.1 - Usuario: asdf - Estado: failed
+2025-06-08 21:19:25,693 - IP: 127.0.0.1 - Usuario: asdf - Estado: failed
+2025-06-08 21:19:29,743 - IP: 127.0.0.1 - Usuario: asdf - Estado: failed
+2025-06-08 21:50:25,843 - IP: 127.0.0.1 - Usuario: asdf - Estado: failed
+2025-06-08 21:50:44,978 - IP: 127.0.0.1 - Usuario: asdf - Estado: failed
+2025-06-08 21:50:47,847 - IP: 127.0.0.1 - Usuario: asdf - Estado: failed
+2025-06-08 21:51:17,590 - IP: 127.0.0.1 - Usuario: asdf - Estado: failed
+2025-06-08 21:53:02,081 - IP: 127.0.0.1 - Usuario: asdf - Estado: failed
+2025-06-08 21:53:04,700 - IP: 127.0.0.1 - Usuario: asdf - Estado: failed
+2025-06-08 21:54:04,295 - IP: 127.0.0.1 - Usuario: asdf - Estado: failed
+2025-06-08 21:54:13,592 - IP: 127.0.0.1 - Usuario: asdf - Estado: failed
+2025-06-08 21:54:20,799 - IP: 127.0.0.1 - Usuario: asdf - Estado: failed
+2025-06-08 21:54:39,628 - IP: 127.0.0.1 - Usuario: asdf - Estado: failed
+2025-06-08 21:54:53,894 - IP: 127.0.0.1 - Usuario: asdf - Estado: failed
+2025-06-08 21:56:06,820 - IP: 127.0.0.1 - Usuario: asdf - Estado: failed
+2025-06-08 21:56:09,764 - IP: 127.0.0.1 - Usuario: asdf - Estado: failed
+2025-06-08 21:56:12,046 - IP: 127.0.0.1 - Usuario: asdf - Estado: failed
+2025-06-08 21:56:49,277 - IP: 127.0.0.1 - Usuario: asdf - Estado: failed
+2025-06-08 21:56:55,494 - IP: 127.0.0.1 - Usuario: asdf - Estado: failed
