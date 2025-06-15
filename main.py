@@ -14,8 +14,11 @@ from app.db import get_db
 from app.incidentes import router as incidentes_router
 from app.create_user import router as create_user_router
 from app.dependencies import Usuario, get_db
+from app.init_db import create_tables
 
 
+
+create_tables()
 
 
 # Configuración de FastAPI
